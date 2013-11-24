@@ -7,8 +7,9 @@ var express = require('express');
 var controllers = require('./controllers');
 var http = require('http');
 var path = require('path');
-var passport = require('passport')
-var TwitterStrategy = require('passport-twitter')
+//var passport = require('passport')
+//var LocalStrategy = require('passport-local')
+var mongoose = require('mongoose')
 
 
 var app = express();
@@ -23,7 +24,8 @@ app.use(app.router);
 app.use(express.cookieParser())
 app.use(express.bodyParser())
 app.use(express.session({secret:'WTFBBQLOL'}))
-app.use()
+//app.use(passport.initialize())
+//app.use(passport.session())
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
