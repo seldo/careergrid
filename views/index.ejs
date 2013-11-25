@@ -1,15 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= title %></title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
-<body>
-<h1><%= title %></h1>
-<p>This is my value proposition! You should totally get some value out of this!</p>
-<form method="POST" action="/build">
-  How long did you do stuff? <input type="text" name="start"> to <input type="text" name="end">
-  <button>FUCK YEAH</button>
-</form>
-</body>
-</html>
+<% title = 'Visualize your technical career | CareerGrid' %>
+<% include layout/header %>
+
+<div class="row">
+  <div class="columns small-10 small-offset-1">
+    <div class="row">
+      <h1>CareerGrid</h1>
+      <p>This is my value proposition! You should totally get some value out of this!</p>
+    </div>
+    <div class="row">
+      <form method="POST" action="/build">
+        <div class="row">
+          <div class="small-12 columns">
+            <p>How long did you do stuff?</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-5 columns">
+            <input type="text" name="start" placeholder="2005">
+          </div>
+          <div class="small-2 columns">
+            to
+          </div>
+          <div class="small-5 columns">
+            <input type="text" name="end" placeholder="2013">
+          </div>
+        </div>
+        <div class="row">
+          <p>What stuff did you do?</p>
+          <ul class="small-block-grid-3">
+          <% for(category in skills) { %>
+            <li><%= category %>
+              <ul>
+                <% skills[category].forEach(function(skill,index) { %>
+                  <li><label><input checked="checked"
+                    type="checkbox" name="skills[]"
+                    value="<%= category %>:<%= skill %>"> <%=skill %></label>
+                  </li>
+                <% }) %>
+              </ul>
+            </li>
+          <% } %>
+          </ul>
+        </div>
+        <div class="row">
+          <div class="small-6 columns small-centered">
+            <button class="small-12 columns">Build your grid</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/js/index.js"></script>
+
+<% include layout/footer %>

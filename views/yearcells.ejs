@@ -1,0 +1,7 @@
+<% for(var year = start; year <= end; year++) {%>
+  <% if(cellprinter == 'simple') { %>
+    <% include cells/simple %>
+  <% } else { %>
+    <% include cells/selector %>
+  <% } %>
+<% } %>

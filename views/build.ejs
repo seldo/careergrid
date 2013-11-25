@@ -1,29 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Build your career grid</title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
-<body>
-<h1>Check boxes like a crazed monkey</h1>
-<form>
-  <table border=1>
-    <thead>
-      <tr>
-        <td>Skill</td>
-        <% printYear = true %>
-        <% include columns %>
-      </tr>
-    </thead>
-    <% skills = ['CSS','HTML','Client JS','Application','Database','Operations'] %>
-    <% skills.forEach(function(index,skill) { %>
-      <tr>
-        <td><%= skill %></td>
-        <% printYear = false %>
-        <% include columns %>
-      </tr>
-    <% }) %>
-  </table>
-</form>
-</body>
-</html>
+<% title = 'Build your career history | CareerGrid' %>
+<% include layout/header %>
+
+<div class="row">
+  <div class="small-10 columns small-centered">
+    <div class="row">
+      <h1>Build your career history</h1>
+      <p>Click once for "I used this", twice for "I heavily used this".</p>
+    </div>
+    <div class="row">
+      <table>
+        <thead>
+          <tr>
+            <td>Skill</td>
+            <% cellprinter = 'simple' %>
+            <% include yearcells %>
+          </tr>
+        </thead>
+        <tbody>
+          <% skills.forEach(function(skill,index) { %>
+            <tr>
+              <td><%= skill %></td>
+              <% cellprinter = 'selector' %>
+              <% include yearcells %>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<% include layout/footer %>
