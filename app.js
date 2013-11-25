@@ -11,7 +11,6 @@ var path = require('path');
 //var LocalStrategy = require('passport-local')
 var mongoose = require('mongoose')
 
-
 var app = express();
 
 // all environments
@@ -32,6 +31,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+// connect to DB
+mongoose.connect('mongodb://localhost/careergrid');
 
 app.get('/', controllers.index);
 app.get('/build', routes.build);
