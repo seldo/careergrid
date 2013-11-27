@@ -1,0 +1,21 @@
+http://www.colourlovers.com/palette/46688/fresh_cut_day
+
+tropiteal:
+#00A8C6
+0,168,198
+
+teal drop
+#40C0CB
+64,192,203
+
+whitetrash
+#F9F2E7
+249,242,231
+
+atomic
+#AEE239
+174,226,57
+
+feeble week
+#8FBE00
+143,190,0

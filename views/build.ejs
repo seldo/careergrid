@@ -8,7 +8,7 @@
       <p>Click once for "I used this", twice for "I heavily used this".</p>
     </div>
     <div class="row">
-      <table>
+      <table id="skillgrid">
         <thead>
           <tr>
             <td>Skill</td>
@@ -19,7 +19,7 @@
         <tbody>
           <% skills.forEach(function(skill,index) { %>
             <tr>
-              <td><%= skill %></td>
+              <td><%= skill.name %></td>
               <% cellprinter = 'selector' %>
               <% include yearcells %>
             </tr>
@@ -30,4 +30,7 @@
   </div>
 </div>
 
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jcanvas.min.js"></script>
+<script src="/js/build.js"></script>
 <% include layout/footer %>

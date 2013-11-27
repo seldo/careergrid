@@ -1,0 +1,33 @@
+body {
+  background-color: #F9F2E7
+}
+
+#skillgrid td {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 0.8rem;
+}
+#skillgrid td img {
+  pointer-events: none;
+}
+.selector {
+  position: relative;
+}
+.selector input {
+  visibility: hidden;
+  position: absolute;
+}
+.selector label {
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  width: 25px;
+}
+.selector input+label {
+  visibility: hidden
+}
+.selector input:checked+label {
+  visibility: visible
+}

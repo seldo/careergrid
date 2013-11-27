@@ -15,9 +15,20 @@ exports.index = function(req, res){
 
 // grid builder
 exports.build = function(req, res){
+  // process skill list
+  var skills = []
+  req.body.skills.forEach(function(skill,index) {
+    var skillParts = skill.split(':')
+    skills.push({
+      category: skillParts[0],
+      name: skillParts[1],
+      id: skillParts[0]+'_'+skillParts[1]
+    })
+  })
+
   res.render('build', {
     start: req.body.start,
     end: req.body.end,
-    skills: req.body.skills
+    skills: skills
   })
 }
