@@ -2,7 +2,25 @@
   $(window).on('load',function() {
 
     // clicking on a label selects the next label
-    $(".selector").on('mousedown',toggleControl)
+    // if mouse is already down, mousing over a control toggles it
+    // (unless it's already been toggled once for the current drag)
+    var mousedown = false
+    var toggled = []
+    $(".selector").on('mousedown',function(e) {
+      mousedown = true
+      toggled.push(this)
+      toggleControl(e,this)
+    })
+    $(document).on('mouseup',function(e) {
+      mousedown = false
+      toggled = []
+    })
+    $(".selector").on('mouseover',function(e) {
+      if(mousedown && !containsObject(this,toggled)) {
+        toggled.push(this)
+        toggleControl(e,this)
+      }
+    })
 
     // initialize the slider
     $("#slider").slider({
@@ -24,10 +42,10 @@
   })
 
   // flip the control
-  var toggleControl = function(e) {
+  var toggleControl = function(e,that) {
     e.preventDefault()
     e.stopPropagation()
-    var current = $(this).find("input:checked")
+    var current = $(that).find("input:checked")
     var nextVal = ($(current).val() + 1) % 3
     $("#"+$(current).attr('name')+"-"+nextVal).prop('checked',true)
 
@@ -36,11 +54,12 @@
   }
 
   // turn the form data into a convenient JSON object
-  var extractData = function(formSelector) {
+  var extractData = function() {
+    var formId = "#skilldata"
     var start = $("#start").val()
     var end = $("#end").val()
     var skills = []
-    $(formSelector).find("tbody tr").each(function(index,tr) {
+    $(formId).find("tbody tr").each(function(index,tr) {
       var skill = $(tr).find('*[data-skill-name]').attr('data-skill-name')
       var intensities = $.map($(tr).find('td input:checked'), function(el,index) {
         return $(el).val()
@@ -152,14 +171,27 @@
 
   // login, create account or just show image
   var savePNG = function() {
+    window.pngData = getDataUrl()
+    window.rawData = extractData()
     window.open('/save','SaveWindow', 500, 500);
   }
 
   // get the data, create a new canvas, and swap it in
   var updateGrid = function() {
-    var gridData = extractData("#skilldata")
+    var gridData = extractData()
     var canvas = drawGrid(gridData)
     $("#drawn-grid").html(canvas)
+  }
+
+  // javascript, y u no have this?
+  var containsObject = function(obj, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+      if (list[i] === obj) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }());

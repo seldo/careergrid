@@ -11,6 +11,9 @@
     "mongoose": "*",
     "require-all": "*",
     "underscore": "*",
-    "sanitizer": "*"
+    "sanitizer": "*",
+    "passport": "*",
+    "passport-local": "*",
+    "passport-twitter": "*"
   }
 }

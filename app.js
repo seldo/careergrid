@@ -6,8 +6,9 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-//var passport = require('passport')
-//var LocalStrategy = require('passport-local')
+var passport = require('passport')
+var LocalStrategy = require('passport-local')
+var TwitterStrategy = require('passport-twitter')
 var mongoose = require('mongoose')
 var requireAll = require('require-all')
 var connect = require('connect')
@@ -27,11 +28,27 @@ app.use(express.logger('dev'));
 app.use(express.cookieParser())
 app.use(connect.bodyParser())
 app.use(expressSanitizer())
-//app.use(passport.initialize())
-//app.use(passport.session())
-app.use(express.session({secret:'WTFBBQLOL'}))
+app.use(passport.initialize())
+app.use(passport.session())
+//app.use(express.session({secret:'WTFBBQLOL'}))
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
+// define passport strategies
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 // development only
 if ('development' == app.get('env')) {
@@ -43,7 +60,9 @@ mongoose.connect('mongodb://localhost/careergrid');
 
 // define routes
 app.get('/', controllers.index.index);
-app.all('/build', controllers.index.build);
+app.post('/grid', controllers.index.build);
+app.get('/grid/:id', controllers.index.build);
+app.get('/save', controllers.index.save);
 
 // start the server
 http.createServer(app).listen(app.get('port'), function(){
