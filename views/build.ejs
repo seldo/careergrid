@@ -4,33 +4,62 @@
 <div class="row">
   <div class="small-10 columns small-centered">
     <div class="row">
-      <h1>Build your career history</h1>
-      <p>Click once for "I used this", twice for "I heavily used this".</p>
+      <div class="small-12 columns">
+        <h1>Build your career history</h1>
+      </div>
     </div>
     <div class="row">
-      <table id="skillgrid">
-        <thead>
-          <tr>
-            <td>Skill</td>
-            <% cellprinter = 'simple' %>
-            <% include yearcells %>
-          </tr>
-        </thead>
-        <tbody>
-          <% skills.forEach(function(skill,index) { %>
+      <div class="small-10 columns" id="drawn-grid"></div>
+      <div class="small-2 columns" id="drawn-grid">
+        <button id="save-btn">Save</button>
+        <div id="save-link-con"><a href="#" id="save-link">(link to PNG)</a></div>
+        <div id="edit-link-con"><a href="#" id="edit-link">(link to edit)</a></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-2 columns" id="size-slider">
+        <p>Grid size:
+      </div>
+      <div class="small-10 columns">
+        <div id="slider"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 columns">
+        <p>Click once for "I used this", twice for "I heavily used this".</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 columns">
+        <form id="skilldata">
+          <input type="hidden" name="start" id="start" value="<%= start %>">
+          <input type="hidden" name="end" id="end" value="<%= end %>">
+          <table id="skillgrid">
+            <thead>
             <tr>
-              <td><%= skill.name %></td>
+              <td>Skill</td>
+              <% cellprinter = 'simple' %>
+              <% include yearcells %>
+            </tr>
+            </thead>
+            <tbody>
+            <% skills.forEach(function(skill,index) { %>
+            <tr>
+              <td data-skill-name="<%= skill.name %>"><%= skill.name %></td>
               <% cellprinter = 'selector' %>
               <% include yearcells %>
             </tr>
-          <% }) %>
-        </tbody>
-      </table>
+            <% }) %>
+            </tbody>
+          </table>
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
-<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery-1.9.1.js"></script>
+<script src="/js/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="/js/jcanvas.min.js"></script>
 <script src="/js/build.js"></script>
 <% include layout/footer %>

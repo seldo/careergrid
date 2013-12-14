@@ -1,13 +1,22 @@
+/* global */
 body {
   background-color: #F9F2E7
 }
+button {
+  background-color: #00A8C6
+}
 
+/* build page */
+#skillgrid {
+  width: 100%;
+}
 #skillgrid td {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   line-height: 0.8rem;
+  cursor: pointer
 }
 #skillgrid td img {
   pointer-events: none;
@@ -30,4 +39,42 @@ body {
 }
 .selector input:checked+label {
   visibility: visible
+}
+#btn-done {
+  float: right;
+}
+
+/* drawn grid */
+#drawn-grid {
+}
+#drawn-grid canvas {
+}
+
+/* controls */
+#size-slider {
+  text-align: right;
+}
+#save-link-con {
+  text-align: center;
+  font-size: 80%;
+}
+.ui-slider {
+  width: 100%;
+  position: relative;
+  top: 6px;
+}
+.ui-slider-handle {
+  background: none
+}
+.ui-widget-content {
+  background-image: none;
+}
+.ui-state-default {
+  background-image: none;
+}
+.ui-widget-content .ui-state-default {
+  background-image: none;
+}
+.ui-widget-header .ui-state-default {
+  background-image: none;
 }
