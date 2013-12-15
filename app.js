@@ -7,8 +7,6 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var passport = require('passport')
-var LocalStrategy = require('passport-local')
-var TwitterStrategy = require('passport-twitter')
 var mongoose = require('mongoose')
 var requireAll = require('require-all')
 var connect = require('connect')
@@ -34,22 +32,6 @@ app.use(passport.session())
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// define passport strategies
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
-
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -57,6 +39,21 @@ if ('development' == app.get('env')) {
 
 // connect to DB
 mongoose.connect('mongodb://localhost/careergrid');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log("Connected!")
+});
+
+var UserSchema = mongoose.Schema({
+  name: String,
+  username: String
+})
+var User = mongoose.model('User', UserSchema)
+
+// define authentication strategy
+require('./authentication.js')(passport,User)
 
 // define routes
 app.get('/', controllers.index.index);
