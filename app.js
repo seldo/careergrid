@@ -46,14 +46,11 @@ db.once('open', function callback () {
   console.log("Connected!")
 });
 
-var UserSchema = mongoose.Schema({
-  name: String,
-  username: String
-})
-var User = mongoose.model('User', UserSchema)
+// define models (?)
+var User = require('./models/user')
 
 // define authentication strategy
-require('./authentication.js')(passport,User)
+require('./authentication')(passport,User)
 
 // define routes
 app.get('/', controllers.index.index);
