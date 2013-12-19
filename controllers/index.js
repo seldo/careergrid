@@ -1,4 +1,5 @@
 var _ = require('underscore')
+var  = require('../models/user')
 
 // homepage
 exports.index = function(req, res) {
@@ -11,35 +12,60 @@ exports.index = function(req, res) {
       'Data store': ['SQL','MySQL','Postgres','Oracle','MongoDB','Redis'],
       'Operations': ['Apache','Nginx','HAProxy','Memcache','RabbitMQ','Bash']
       */
-    }
+    },
+    _csrf: req.session._csrf
   })
 };
 
 // grid builder
 exports.build = function(req, res) {
-  // process skill list
+
+  console.log("ID:" + req.params.id)
   var skills = []
-  req.body.skills.forEach(function(skill,index) {
-    var skillParts = skill.split(':')
-    skills.push({
-      category: skillParts[0],
-      name: skillParts[1],
-      id: skillParts[0]+'_'+skillParts[1]
+  var start, end;
+
+  if(req.params.id) {
+    // load existing grid
+    start = 2001
+    end = 2005
+  } else {
+    // new grid
+    start = req.body.start
+    end = req.body.end
+    req.body.skills.forEach(function(skill,index) {
+      var skillParts = skill.split(':')
+      skills.push({
+        category: skillParts[0],
+        name: skillParts[1],
+        id: skillParts[0]+'_'+skillParts[1]
+      })
     })
-  })
+  }
 
   res.render('build', {
-    start: req.body.start,
-    end: req.body.end,
+    start: start,
+    end: end,
     skills: skills
   })
 }
 
-// save the png
-exports.save = function(req,res) {
+// get the data out of localstorage
+exports.postImage = function(req,res) {
+  res.render('postImage',{
+    _csrf: req.session._csrf
+  })
+}
 
-  // if has session already, show image
+// take the posted data and save to mongo, associated with current user
+exports.saveImage = function(req,res) {
 
-  // if no session, show login/create screen
+  console.log("Save form says: ")
+  console.log(req.body['json-data'])
 
+  var gridData = JSON.parse(req.body['json-data'])
+
+  // do that stuff
+  var id = 'xxx'
+
+  return res.redirect("/grid/" + id)
 }

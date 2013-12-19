@@ -11,9 +11,7 @@ var mongoose = require('mongoose')
 var requireAll = require('require-all')
 var connect = require('connect')
 var expressSanitizer = require('./lib/express-sanitizer')
-
-// load controllers
-var controllers = requireAll(__dirname + '/controllers');
+var csrf = require('csrf')
 
 var app = express();
 
@@ -26,9 +24,10 @@ app.use(express.logger('dev'));
 app.use(express.cookieParser())
 app.use(connect.bodyParser())
 app.use(expressSanitizer())
+app.use(express.session({secret:'WTFBBQLOL'}))
 app.use(passport.initialize())
 app.use(passport.session())
-//app.use(express.session({secret:'WTFBBQLOL'}))
+app.use(csrf());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -39,24 +38,31 @@ if ('development' == app.get('env')) {
 
 // connect to DB
 mongoose.connect('mongodb://localhost/careergrid');
-
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
   console.log("Connected!")
 });
 
-// define models (?)
+// load controllers
+var controllers = requireAll(__dirname + '/controllers');
+
+// load models
 var User = require('./models/user')
 
-// define authentication strategy
-require('./authentication')(passport,User)
+// define authentication strategy and helpers
+var auth = require('./authentication')(passport,User)
 
 // define routes
 app.get('/', controllers.index.index);
 app.post('/grid', controllers.index.build);
-app.get('/grid/:id', controllers.index.build);
-app.get('/save', controllers.index.save);
+app.get('/grid/:id', auth.requireLogin, controllers.index.build);
+app.get('/save', auth.requireLogin, controllers.index.postImage);
+app.post('/save', auth.requireLogin, controllers.index.saveImage);
+app.get('/login', controllers.user.login )
+app.post('/login', passport.authenticate('local'), function(req, res) {
+  res.redirect('/save');
+});
 
 // start the server
 http.createServer(app).listen(app.get('port'), function(){

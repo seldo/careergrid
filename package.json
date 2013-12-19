@@ -15,6 +15,7 @@
     "passport": "*",
     "passport-local": "*",
     "passport-twitter": "*",
-    "bcrypt": "*"
+    "bcrypt": "*",
+    "csrf": "*"
   }
 }

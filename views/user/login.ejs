@@ -1,0 +1,33 @@
+<% title = 'Log in | CareerGrid' %>
+<% include ../layout/header %>
+
+<div class="row">
+  <div class="columns small-10 small-offset-1">
+    <form method="POST" action="/login">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>">
+      <div class="row">
+        <div class="small-12 columns">
+          <p>You need to login so we can save your grid.<br>
+          You can use Twitter, or you can create an account here.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-5 columns">
+          <input type="text" name="username" placeholder="username">
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-5 columns">
+          <input type="password" name="password" placeholder="password">
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-5 columns">
+          <input type="submit" value="Login">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<% include ../layout/footer %>

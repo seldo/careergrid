@@ -1,0 +1,12 @@
+<html>
+<body>
+<form method="POST" action="/save" id="postimage">
+  <input type="hidden" name="json-data" id="json-data">
+  <input type="hidden" name="_csrf" value="<%= _csrf %>">
+</form>
+<script>
+  document.getElementById('json-data').setAttribute('value', localStorage.getItem('json-data'))
+  document.getElementById('postimage').submit()
+</script>
+</body>
+</html>

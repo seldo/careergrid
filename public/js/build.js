@@ -30,8 +30,14 @@
       value: 350
     });
 
-    // show the grid as an image
-    $("#save-btn").on('click',savePNG)
+    // save and redirect to permalink
+    $("#save-btn").on('click',function(e) {
+      // they might need to fuck off to create an account or something
+      // so we shove everything into localstorage for safe keeping
+      localStorage.setItem('png-data',getDataUrl())
+      localStorage.setItem('json-data',JSON.stringify(extractData()))
+      window.location.href = "/save"
+    })
 
     // save the image from the link
     $("#save-link").on('mouseover',setDataLink)
@@ -160,20 +166,10 @@
   var getDataUrl = function() {
     return $("#grid").getCanvasImage("png")
   }
-  /*
-  var showPNG = function() {
-    document.location = getDataUrl()
-  }
-  */
+
+  // change the destination of the link into the dataURL
   var setDataLink = function() {
     $(this).attr('href',getDataUrl())
-  }
-
-  // login, create account or just show image
-  var savePNG = function() {
-    window.pngData = getDataUrl()
-    window.rawData = extractData()
-    window.open('/save','SaveWindow', 500, 500);
   }
 
   // get the data, create a new canvas, and swap it in
