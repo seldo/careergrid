@@ -1,5 +1,6 @@
 var _ = require('underscore')
-var  = require('../models/user')
+var Grid = require('../models/grid')
+var shortid = require('shortid')
 
 // homepage
 exports.index = function(req, res) {
@@ -63,9 +64,13 @@ exports.saveImage = function(req,res) {
   console.log(req.body['json-data'])
 
   var gridData = JSON.parse(req.body['json-data'])
+  gridData.short_id = shortid.generate()
+  gridData.user_id = req.user.id
 
-  // do that stuff
-  var id = 'xxx'
+  var grid = new Grid(gridData)
+  grid.save(function(er) {
+    res.redirect("/grid/" + grid.short_id)
+  })
 
-  return res.redirect("/grid/" + id)
+  return
 }
