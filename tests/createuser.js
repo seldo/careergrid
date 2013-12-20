@@ -23,8 +23,8 @@ db.once('open', function() {
     } else {
       console.log("Created user!")
       console.log(user)
-      db.close()
     }
+    db.close()
   })
 
 });

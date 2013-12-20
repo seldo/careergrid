@@ -64,6 +64,7 @@
     var formId = "#skilldata"
     var start = $("#start").val()
     var end = $("#end").val()
+    var shortId = $("#short_id").val()
     var skills = []
     $(formId).find("tbody tr").each(function(index,tr) {
       var skill = $(tr).find('*[data-skill-name]').attr('data-skill-name')
@@ -78,6 +79,7 @@
     return {
       start: start,
       end: end,
+      shortId: shortId,
       skills: skills
     }
   }

@@ -1,0 +1,15 @@
+<% for(var i = 0; i < skill.intensities.length; i++) { %>
+  <% baseId = skill.name.toLowerCase() + '-' + i %>
+  <% intensity = skill.intensities[i] %>
+  <td class="selector">
+    <input type="radio" name="<%= baseId %>" value="0" id="<%= baseId %>-0"
+    <%= (intensity == 0) ? 'checked="checked"' : '' %>>
+    <label for="<%= baseId %>-0"><img src="/img/circle-none.png"></label>
+    <input type="radio" name="<%= baseId %>" value="1" id="<%= baseId %>-1"
+    <%= (intensity == 1) ? 'checked="checked"' : '' %>>
+    <label for="<%= baseId %>-1"><img src="/img/circle-light.png"></label>
+    <input type="radio" name="<%= baseId %>" value="2" id="<%= baseId %>-2"
+    <%= (intensity == 2) ? 'checked="checked"' : '' %>>
+    <label for="<%= baseId %>-2"><img src="/img/circle-heavy.png"></label>
+  </td>
+<% } %>

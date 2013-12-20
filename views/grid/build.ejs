@@ -34,11 +34,11 @@
         <form id="skilldata">
           <input type="hidden" name="start" id="start" value="<%= start %>">
           <input type="hidden" name="end" id="end" value="<%= end %>">
+          <input type="hidden" name="short_id" id="short_id" value="<%= shortId %>">
           <table id="skillgrid">
             <thead>
             <tr>
               <td>Skill</td>
-              <% cellprinter = 'simple' %>
               <% include yearcells %>
             </tr>
             </thead>
@@ -46,8 +46,7 @@
             <% skills.forEach(function(skill,index) { %>
             <tr>
               <td data-skill-name="<%= skill.name %>"><%= skill.name %></td>
-              <% cellprinter = 'selector' %>
-              <% include yearcells %>
+              <% include intensitycells %>
             </tr>
             <% }) %>
             </tbody>

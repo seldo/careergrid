@@ -19,6 +19,10 @@ GridSchema.statics.findByShortId = function(userid,shortid,cb) {
   this.findOne({user_id: userid, short_id: shortid},cb)
 }
 
+GridSchema.statics.updateByShortId = function(userid,shortid,grid,cb) {
+  this.findOneAndUpdate({user_id: userid, short_id: shortid}, grid, cb);
+}
+
 var Grid = mongoose.model('Grid', GridSchema)
 
 module.exports = Grid;

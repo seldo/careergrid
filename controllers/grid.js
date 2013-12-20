@@ -5,12 +5,13 @@ var shortid = require('shortid')
 exports.build = function(req, res) {
 
   var skills = []
-  var start, end;
+  var start, end, shortId = null;
 
   var done = function() {
     res.render('grid/build', {
       start: start,
       end: end,
+      shortId: shortId,
       skills: skills
     })
   }
@@ -21,6 +22,7 @@ exports.build = function(req, res) {
       start = gridData.start
       end = gridData.end
       skills = gridData.skills
+      shortId = gridData.short_id
       done()
     })
   } else {
@@ -30,7 +32,7 @@ exports.build = function(req, res) {
     req.body.skills.forEach(function(skill,index) {
       skills.push({
         name: skill,
-        intensities: []
+        intensities: Array(end-start)
       })
     })
     done()
@@ -52,13 +54,27 @@ exports.saveImage = function(req,res) {
   console.log(req.body['json-data'])
 
   var gridData = JSON.parse(req.body['json-data'])
-  gridData.short_id = shortid.generate()
-  gridData.user_id = req.user.id
 
-  var grid = new Grid(gridData)
-  grid.save(function(er) {
-    res.redirect("/grid/" + grid.short_id)
-  })
+  var done = function(id) {
+    return res.redirect("/grid/" + id)
+  }
 
-  return
+  if(gridData.shortId) {
+    gridData.user_id = req.user.id
+    gridData.short_id = gridData.shortId
+    delete gridData.shortId
+    // existing grid
+    Grid.updateByShortId(req.user.id,gridData.shortId,gridData,function(er) {
+      if (er) throw new Error(er)
+      else done(gridData.short_id)
+    })
+  } else {
+    // new record
+    gridData.short_id = shortid.generate()
+    gridData.user_id = req.user.id
+    var grid = new Grid(gridData)
+    grid.save(function(er) {
+      done(grid.short_id)
+    })
+  }
 }
