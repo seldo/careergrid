@@ -53,13 +53,13 @@ module.exports = function(passport,User) {
     postLogin: function(req, res) {
       // the ?done parameter from above gets transmitted through to here
       var done = '/'
-      if(req.params.done) {
+      if(req.body.done) {
         // require a relative URL: starts with / but second char is not also /
-        if (req.params.done.indexOf('/') === 0 && req.params.done.indexOf('/',1) !== 1) {
-          done = req.params.done
+        if (req.body.done.indexOf('/') === 0 && req.body.done.indexOf('/',1) !== 1) {
+          done = req.body.done
         }
       }
-      res.redirect('/save');
+      res.redirect(done);
     }
   }
 

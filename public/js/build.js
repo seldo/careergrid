@@ -36,7 +36,7 @@
       // so we shove everything into localstorage for safe keeping
       localStorage.setItem('png-data',getDataUrl())
       localStorage.setItem('json-data',JSON.stringify(extractData()))
-      window.location.href = "/save"
+      window.location.href = "/grid/save"
     })
 
     // save the image from the link

@@ -39,7 +39,7 @@ if ('development' == app.get('env')) {
 // connect to DB
 mongoose.connect('mongodb://localhost/careergrid');
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', function(er) { console.log('connection error:' + er) });
 db.once('open', function callback () {
   console.log("Connected!")
 });
@@ -55,10 +55,10 @@ var auth = require('./authentication')(passport,User)
 
 // define routes
 app.get('/', controllers.index.index);
-app.post('/grid', controllers.index.build);
-app.get('/grid/:id', auth.requireLogin, controllers.index.build);
-app.get('/save', auth.requireLogin, controllers.index.postImage);
-app.post('/save', auth.requireLogin, controllers.index.saveImage);
+app.post('/grid/build', controllers.grid.build);
+app.get('/grid/save', auth.requireLogin, controllers.grid.postImage);
+app.post('/grid/save', auth.requireLogin, controllers.grid.saveImage);
+app.get('/grid/:id', auth.requireLogin, controllers.grid.build);
 app.get('/login', controllers.user.login )
 app.post('/login', passport.authenticate('local'), auth.postLogin);
 
