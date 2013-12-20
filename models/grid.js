@@ -16,7 +16,7 @@ GridSchema.statics.findByUserId = function(userid,cb) {
 }
 
 GridSchema.statics.findByShortId = function(userid,shortid,cb) {
-  this.findOne({user_id: userid, short_id: shortid})
+  this.findOne({user_id: userid, short_id: shortid},cb)
 }
 
 var Grid = mongoose.model('Grid', GridSchema)

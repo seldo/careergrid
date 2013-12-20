@@ -41,12 +41,25 @@ module.exports = function(passport,User) {
       // `req.user` contains the authenticated user.
       if(!req.user) {
         console.log("No authenticated user found")
-        return res.redirect('/login');
+        // if we need them to login, we have to say where to come back to afterwards
+        return res.redirect('/login?done=' + req.path);
       } else {
         console.log("Authenticated user:")
         console.log(req.user)
         return next()
       }
+    },
+    // happens after a successful authentication; send them somewhere.
+    postLogin: function(req, res) {
+      // the ?done parameter from above gets transmitted through to here
+      var done = '/'
+      if(req.params.done) {
+        // require a relative URL: starts with / but second char is not also /
+        if (req.params.done.indexOf('/') === 0 && req.params.done.indexOf('/',1) !== 1) {
+          done = req.params.done
+        }
+      }
+      res.redirect('/save');
     }
   }
 

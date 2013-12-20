@@ -4,6 +4,7 @@ var shortid = require('shortid')
 
 // homepage
 exports.index = function(req, res) {
+
   res.render('index', {
     skills: {
       'Frontend': ['CSS','HTML','JavaScript'],
@@ -25,29 +26,35 @@ exports.build = function(req, res) {
   var skills = []
   var start, end;
 
+  var done = function() {
+    res.render('build', {
+      start: start,
+      end: end,
+      skills: skills
+    })
+  }
+
   if(req.params.id) {
     // load existing grid
-    start = 2001
-    end = 2005
+    Grid.findByShortId(req.user.id,req.params.id,function(er,gridData) {
+      start = gridData.start
+      end = gridData.end
+      skills = gridData.skills
+      done()
+    })
   } else {
     // new grid
     start = req.body.start
     end = req.body.end
     req.body.skills.forEach(function(skill,index) {
-      var skillParts = skill.split(':')
       skills.push({
-        category: skillParts[0],
-        name: skillParts[1],
-        id: skillParts[0]+'_'+skillParts[1]
+        name: skill,
+        intensities: []
       })
     })
+    done()
   }
 
-  res.render('build', {
-    start: start,
-    end: end,
-    skills: skills
-  })
 }
 
 // get the data out of localstorage

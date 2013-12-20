@@ -60,9 +60,7 @@ app.get('/grid/:id', auth.requireLogin, controllers.index.build);
 app.get('/save', auth.requireLogin, controllers.index.postImage);
 app.post('/save', auth.requireLogin, controllers.index.saveImage);
 app.get('/login', controllers.user.login )
-app.post('/login', passport.authenticate('local'), function(req, res) {
-  res.redirect('/save');
-});
+app.post('/login', passport.authenticate('local'), auth.postLogin);
 
 // start the server
 http.createServer(app).listen(app.get('port'), function(){
