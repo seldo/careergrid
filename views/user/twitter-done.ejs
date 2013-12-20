@@ -1,0 +1,8 @@
+<script src="/js/jquery-1.9.1.js"></script>
+<script>
+  $(document).on('ready',function(e) {
+    var done = localStorage.getItem('twitter-done')
+    localStorage.setItem('twitter-done',null)
+    window.location.href = done
+  })
+</script>

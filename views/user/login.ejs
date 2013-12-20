@@ -55,11 +55,23 @@
           <h3>Sign in with Twitter</h3>
         </div>
         <div class="row">
-          Suuuuuuuure.
+          <a href="/user/twitter/authenticate" id="twitter-sign-in"><img
+            src="/img/sign-in-with-twitter-l.png"
+            width="151" height="24"></a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script src="/js/jquery-1.9.1.js"></script>
+<script>
+$(document).on('ready',function(e) {
+  $("#twitter-sign-in").on('click',function(e) {
+    localStorage.setItem('twitter-done','<%= done %>')
+    return true;
+  })
+})
+</script>
 
 <% include ../layout/footer %>

@@ -1,8 +1,10 @@
 var LocalStrategy = require('passport-local').Strategy
 var TwitterStrategy = require('passport-twitter').Strategy
+var config = require('./config')
+var bcrypt = require('bcrypt')
 
 module.exports = function(passport,User) {
-  // define passport strategies
+  // local user strategy
   passport.use(new LocalStrategy(
     function(username, password, done) {
       User.findByName(username, function (err, user) {
@@ -23,6 +25,27 @@ module.exports = function(passport,User) {
       });
     }
   ));
+  // twitter auth strategy
+  passport.use(new TwitterStrategy({
+      consumerKey: config.twitter.consumerKey,
+      consumerSecret: config.twitter.consumerSecret,
+      callbackURL: config.twitter.callbackURL
+    },
+    function(token, tokenSecret, profile, done) {
+      bcrypt.genSalt(10, function(er, randomPass) {
+        if (er) throw new Error(er)
+        var twitterUser = {
+          username: 'twitter__' + profile.id,
+          password: randomPass
+        }
+        User.findOrCreate(twitterUser, function(er, user) {
+          if (er) { return done(er); }
+          done(null, user);
+        });
+      })
+    }
+  ));
+
 
   // define user serialize/deserialize
   passport.serializeUser(function(user, done) {

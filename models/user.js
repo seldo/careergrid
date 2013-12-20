@@ -12,6 +12,20 @@ UserSchema.statics.findByName = function(username,cb) {
   this.findOne({username: new RegExp(username,'i') },cb)
 }
 
+UserSchema.statics.findOrCreate = function(user,cb) {
+  this.findByName({username: user.username},function(er,user) {
+    if (er) throw new Error(er)
+    if (user) cb(null,user)
+    else {
+      var newUser = new User(user)
+      newUser.save(function(er) {
+        if (er) throw new Error(er)
+        cb(null,newUser)
+      })
+    }
+  })
+}
+
 UserSchema.methods = {
   validatePassword: function(password,cb) {
     bcrypt.compare(password, this.passwordHash, cb);
