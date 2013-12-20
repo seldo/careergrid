@@ -24,6 +24,10 @@ db.once('open', function() {
         end: grid.end,
         skills: grid.skills
       }
+      newGrid.skills[0] = {
+        name: 'updatedskill',
+        intensities: [0,0,0,0,1,1,1,1,2,2,2,2]
+      }
       newGrid.skills.push({
         name: 'newskill',
         intensities: [4,5,8,9,7,6,3]

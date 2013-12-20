@@ -19,6 +19,8 @@ exports.build = function(req, res) {
   if(req.params.id) {
     // load existing grid
     Grid.findByShortId(req.user.id,req.params.id,function(er,gridData) {
+      console.log("Existing grid:")
+      console.log(gridData.skills)
       start = gridData.start
       end = gridData.end
       skills = gridData.skills
@@ -60,13 +62,18 @@ exports.saveImage = function(req,res) {
   }
 
   if(gridData.shortId) {
+    console.log("Updating grid::")
     gridData.user_id = req.user.id
     gridData.short_id = gridData.shortId
     delete gridData.shortId
     // existing grid
-    Grid.updateByShortId(req.user.id,gridData.shortId,gridData,function(er) {
+    Grid.updateByShortId(req.user.id,gridData.short_id,gridData,function(er,updated) {
       if (er) throw new Error(er)
-      else done(gridData.short_id)
+      else {
+        console.log("update success:")
+        console.log(updated.skills)
+        done(gridData.short_id)
+      }
     })
   } else {
     // new record
