@@ -24,7 +24,7 @@ exports.create = function(req,res,next) {
   // if passwords don't match, no signup
   if (req.body.password != req.body['password-repeat']) {
     // TODO: flash message
-    return res.redirect('/login?badsignup')
+    return res.redirect('/login?signuperror=passwordmismatch')
   }
 
   // create the user
@@ -33,10 +33,14 @@ exports.create = function(req,res,next) {
     password: req.body.password
   })
   user.save(function(er) {
-    // log them in and then send them on their way
-    passport.authenticate('local')(req,res,function() {
-      return res.redirect(done)
-    })
+    if (er) {
+      return res.redirect('/login?signuperror='+er)
+    } else {
+      // log them in and then send them on their way
+      passport.authenticate('local')(req,res,function() {
+        return res.redirect(done)
+      })
+    }
   })
 
 }

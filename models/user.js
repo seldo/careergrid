@@ -18,26 +18,40 @@ UserSchema.methods = {
   }
 }
 
-UserSchema.pre('save',function(next) {
-  console.log(this)
+UserSchema.pre('save',function(next,done) {
   var user = this
-  if (user.password) {
-    bcrypt.genSalt(10, function(er, salt) {
-      bcrypt.hash(user.password, salt, function(er, hash) {
-        if (er) {
-          console.log("Problem hashing:")
-          console.log(er)
-          throw new Error(er)
-        } else {
-          user.passwordHash = hash
-          user.password = null
-          next()
-        }
+  // validate username unique
+  User.findOne({username : user.username},function(er, dupeUser) {
+      if(er) {
+        console.log("Some kind of error")
+        done(er);
+      } else if(dupeUser) {
+        console.log("Username exists, screw you")
+        user.invalidate("Duplicate username")
+        done(new Error("Username already exists"))
+      } else {
+        saltAndHashPass()
+      }
+  })
+
+  // salt and hash password
+  var saltAndHashPass = function() {
+    if (user.password) {
+      bcrypt.genSalt(10, function(er, salt) {
+        bcrypt.hash(user.password, salt, function(er, hash) {
+          if (er) {
+            throw new Error(er)
+          } else {
+            user.passwordHash = hash
+            user.password = null
+            next()
+          }
+        });
       });
-    });
-  } else {
-    console.log("No password!")
-    next()
+    } else {
+      user.invalidate("No password!")
+      done(new Error("No password supplied"))
+    }
   }
 })
 
