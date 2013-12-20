@@ -34,7 +34,7 @@ exports.build = function(req, res) {
     req.body.skills.forEach(function(skill,index) {
       skills.push({
         name: skill,
-        intensities: Array(end-start)
+        intensities: Array(end-start+1)
       })
     })
     done()
@@ -61,7 +61,8 @@ exports.saveImage = function(req,res) {
     return res.redirect("/grid/" + id)
   }
 
-  if(gridData.shortId) {
+  if(gridData.shortId && gridData.shortId != 'null') {
+    console.log("Short ID: " + gridData.shortId)
     console.log("Updating grid::")
     gridData.user_id = req.user.id
     gridData.short_id = gridData.shortId

@@ -53,7 +53,8 @@
     e.stopPropagation()
     var current = $(that).find("input:checked")
     var nextVal = ($(current).val() + 1) % 3
-    $("#"+$(current).attr('name')+"-"+nextVal).prop('checked',true)
+    var nextId = "#"+$(current).attr('name')+"-"+nextVal
+    $(nextId).prop('checked',true)
 
     // we update the drawn grid whenever you make a selection
     updateGrid()

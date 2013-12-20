@@ -61,6 +61,8 @@ app.post('/grid/save', auth.requireLogin, controllers.grid.saveImage);
 app.get('/grid/:id', auth.requireLogin, controllers.grid.build);
 app.get('/login', controllers.user.login )
 app.post('/login', passport.authenticate('local'), auth.postLogin);
+app.get('/signup', controllers.user.showCreate ) // we're not using this
+app.post('/signup', controllers.user.create);
 
 // start the server
 http.createServer(app).listen(app.get('port'), function(){

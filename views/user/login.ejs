@@ -3,31 +3,62 @@
 
 <div class="row">
   <div class="columns small-10 small-offset-1">
-    <form method="POST" action="/login">
-      <input type="hidden" name="_csrf" value="<%= _csrf %>">
-      <input type="hidden" name="done" value="<%= done %>">
-      <div class="row">
-        <div class="small-12 columns">
-          <p>You need to login so we can save your grid.<br>
-          You can use Twitter, or you can create an account here.</p>
+    <h1>Log in to save your grid</h1>
+    <p>You need to login so we can save your grid.<br>
+      You can use Twitter, or you can create an account here.</p>
+  </div>
+</div>
+<div class="row">
+  <div class="columns small-10 small-offset-1">
+    <div class="row signins">
+      <div class="columns small-4">
+        <form method="POST" action="/login">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>">
+          <input type="hidden" name="done" value="<%= done %>">
+          <div class="row">
+            <h3>Log in</h3>
+          </div>
+          <div class="row">
+            <input type="text" name="username" placeholder="username">
+          </div>
+          <div class="row">
+            <input type="password" name="password" placeholder="password">
+          </div>
+          <div class="row">
+            <input type="submit" value="Login">
+          </div>
+        </form>
+      </div>
+      <div class="columns small-4">
+        <form method="POST" action="/signup">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>">
+          <input type="hidden" name="done" value="<%= done %>">
+          <div class="row">
+            <h3>Sign up</h3>
+          </div>
+          <div class="row">
+            <input type="text" name="username" placeholder="username">
+          </div>
+          <div class="row">
+            <input type="password" name="password" placeholder="password">
+          </div>
+          <div class="row">
+            <input type="password" name="password-repeat" placeholder="password again">
+          </div>
+          <div class="row">
+            <input type="submit" value="Sign up">
+          </div>
+        </form>
+      </div>
+      <div class="columns small-4">
+        <div class="row">
+          <h3>Sign in with Twitter</h3>
+        </div>
+        <div class="row">
+          Suuuuuuuure.
         </div>
       </div>
-      <div class="row">
-        <div class="small-5 columns">
-          <input type="text" name="username" placeholder="username">
-        </div>
-      </div>
-      <div class="row">
-        <div class="small-5 columns">
-          <input type="password" name="password" placeholder="password">
-        </div>
-      </div>
-      <div class="row">
-        <div class="small-5 columns">
-          <input type="submit" value="Login">
-        </div>
-      </div>
-    </form>
+    </div>
   </div>
 </div>
 

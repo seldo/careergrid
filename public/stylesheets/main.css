@@ -78,3 +78,8 @@ button {
 .ui-widget-header .ui-state-default {
   background-image: none;
 }
+
+/* sign in */
+.signins>div {
+  padding: 2em;
+}
