@@ -42,7 +42,7 @@
               <% include yearcells %>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="sortable">
             <% skills.forEach(function(skill,index) { %>
             <tr>
               <td data-skill-name="<%= skill.name %>"><%= skill.name %></td>
@@ -53,6 +53,9 @@
           </table>
         </form>
       </div>
+    </div>
+    <div class="row">
+      <a href="/">Start over</a>
     </div>
   </div>
 </div>

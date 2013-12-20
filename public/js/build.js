@@ -1,5 +1,5 @@
 (function() {
-  $(window).on('load',function() {
+  $(document).on('ready',function() {
 
     // clicking on a label selects the next label
     // if mouse is already down, mousing over a control toggles it
@@ -28,6 +28,11 @@
       max: 660,
       slide: updateGrid, // update the grid size in real time
       value: 350
+    });
+
+    // initialize the sorter
+    $("#sortable").sortable({
+      stop: updateGrid
     });
 
     // save and redirect to permalink
